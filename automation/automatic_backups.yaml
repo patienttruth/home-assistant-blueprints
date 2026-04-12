@@ -45,6 +45,11 @@ blueprint:
       default: "02:30:00"
       selector:
         time:
+    backup_location:
+      name: Location for backup
+      default: 
+      selector:
+        backup_location:   
     encrypted:
       name: Encrypted
       description: |
@@ -112,6 +117,7 @@ blueprint:
               metadata: {}
               data:
                 name: "{{ name }}"
+                location: '{{ backup_location }}'
                 encrypted: "{{ encrypted }}"
                 password: "{{ password }}"
                 keep_days: "{{ keep_days }}"
@@ -138,6 +144,7 @@ variables:
   enable_monthly: !input enable_monthly
   enable_yearly: !input enable_yearly
   use_action_hourly: !input use_action_hourly
+  backup_location: !input backup_location
 
 trigger:
   - id: daily
@@ -178,6 +185,7 @@ action:
                     service: auto_backup.backup
                     data:
                       name: "{{ name }}"
+                      location: '{{ backup_location }}'
                       encrypted: "{{ encrypted }}"
                       password: "{{ password }}"
                       keep_days: "{{ keep_days }}"
@@ -227,6 +235,7 @@ action:
             service: auto_backup.backup
             data:
               name: "{{ name }}"
+              location: '{{ backup_location }}'
               encrypted: "{{ encrypted }}"
               password: "{{ password }}"
               keep_days: "{{ keep_days }}"
